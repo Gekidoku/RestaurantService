@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Web;m
+using System.Runtime.Serialization.Json;
+using System.Web;
 
 namespace RestaurantService
 {
+
     [Serializable]
     [DataContract]
     public class Method

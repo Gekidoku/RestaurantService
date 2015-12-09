@@ -25,6 +25,13 @@ namespace RestaurantService
         //     and include the following line in the operation body:
         //         WebOperationContext.Current.OutgoingResponse.ContentType = "text/xml";
         [OperationContract]
+        [WebGet(UriTemplate = "", ResponseFormat = WebMessageFormat.Json)]
+        public List<Method> Methods()
+        {
+            return this.getRestaurantMethods();
+        }
+        
+        [OperationContract]
         [WebGet(UriTemplate = "/GetRestaurantMethods", ResponseFormat = WebMessageFormat.Json)]
         public List<Method> getRestaurantMethods()
         {
@@ -47,6 +54,13 @@ namespace RestaurantService
             var Restaurant = RestaurantManager.Instance.GetRestaurantByGoogleID(GoogleId);
             
             return Restaurant;
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetRestaurantByGeo/{Long}/{Lat}", ResponseFormat = WebMessageFormat.Json)]
+        public Restaurant GetRestaurantByGeo(string Long, string Lat)
+        {
+            return RestaurantManager.Instance.GetRestaurantByGeo(Long, Lat);
         }
 
         // Add more operations here and mark them with [OperationContract]

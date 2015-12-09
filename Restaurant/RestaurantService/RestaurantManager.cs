@@ -38,7 +38,23 @@ namespace RestaurantService
             return rest;
             //return new Restaurant() { Name = "GoogleID", GoogleID = "564654654", City = "Leiden", Rating="5 fucking stars m8", Street = "that one weird ally" };
         }
-       
+        public Restaurant GetRestaurantByGeo(string Long, string Lat)
+        {
+            //TODO google place call voor get place by long lat
+            //return restaurant met google Id
+
+            return new Restaurant()
+            {
+                Name = "test",
+                GoogleID = new Guid().ToString(),
+                City = "That one weird town",
+                Rating = "5 bloody stars m8",
+                Street = "TyranisaurusREKTM8 322",
+                Lng = "322",
+                Lat = "322"
+            };
+        }
+        
         private string Key()
         {
             string[] googleapikeys = new string[2] { "AIzaSyDzVGDSyH_9cUC-VzbPikf_LD9MIcFhHWA", "AIzaSyDzVGDSyH_9cUC-VzbPikf_LD9MIcFhHWA" };
@@ -62,12 +78,15 @@ namespace RestaurantService
 
             rest.Name = xelement.Descendants("name").First().Value;
             rest.Rating = xelement.Descendants("rating").First().Value;
-            rest.GoogleID = xelement.Descendants("id").First().Value;
-            var citychild = xelement.Descendants("type").FirstOrDefault(x => x.Value == "administrative_area_level_2");
+            rest.GoogleID = xelement.Descendants("place_id").First().Value;
+            var citychild = xelement.Descendants("type").FirstOrDefault(x => x.Value == "locality");
             rest.City = citychild.Parent.Element("long_name").Value;
             var streetchild = xelement.Descendants("type").FirstOrDefault(x => x.Value == "route");
             var housenrchild = xelement.Descendants("type").FirstOrDefault(x => x.Value == "street_number");
             rest.Street = streetchild.Parent.Element("long_name").Value + " " + housenrchild.Parent.Element("long_name").Value;
+            var Geometry = xelement.Descendants("location");
+            rest.Lng = xelement.Descendants("lng").First().Value;
+            rest.Lat = xelement.Descendants("lat").First().Value;
             //rest.Rating = node["rating"].InnerText;
             //rest.GoogleID = node["id"].InnerText;
 
