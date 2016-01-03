@@ -18,12 +18,19 @@ namespace RestaurantService
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class RestaurantService
     {
-      
+
         // To use HTTP GET, add [WebGet] attribute. (Default ResponseFormat is WebMessageFormat.Json)
         // To create an operation that returns XML,
         //     add [WebGet(ResponseFormat=WebMessageFormat.Xml)],
         //     and include the following line in the operation body:
         //         WebOperationContext.Current.OutgoingResponse.ContentType = "text/xml";
+        [OperationContract]
+        [WebGet(UriTemplate = "/", ResponseFormat = WebMessageFormat.Json)]
+        public string Default()
+        {
+            return "hi";
+        }
+
         [OperationContract]
         [WebGet(UriTemplate = "/GetRestaurantMethods", ResponseFormat = WebMessageFormat.Json)]
         public List<Method> getRestaurantMethods()
