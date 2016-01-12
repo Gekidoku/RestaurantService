@@ -18,19 +18,19 @@ namespace RestaurantService
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class RestaurantService
     {
-
+      
         // To use HTTP GET, add [WebGet] attribute. (Default ResponseFormat is WebMessageFormat.Json)
         // To create an operation that returns XML,
         //     add [WebGet(ResponseFormat=WebMessageFormat.Xml)],
         //     and include the following line in the operation body:
         //         WebOperationContext.Current.OutgoingResponse.ContentType = "text/xml";
         [OperationContract]
-        [WebGet(UriTemplate = "/", ResponseFormat = WebMessageFormat.Json)]
-        public string Default()
+        [WebGet(UriTemplate = "", ResponseFormat = WebMessageFormat.Json)]
+        public List<Method> Methods()
         {
-            return "hi";
+            return this.getRestaurantMethods();
         }
-
+        
         [OperationContract]
         [WebGet(UriTemplate = "/GetRestaurantMethods", ResponseFormat = WebMessageFormat.Json)]
         public List<Method> getRestaurantMethods()
@@ -54,6 +54,13 @@ namespace RestaurantService
             var Restaurant = RestaurantManager.Instance.GetRestaurantByGoogleID(GoogleId);
             
             return Restaurant;
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetRestaurantsByGeo/{Long}/{Lat}/{Rad}/{Type}", ResponseFormat = WebMessageFormat.Json)]
+        public List<Restaurant> GetRestaurantsByGeo(string Long, string Lat, string Rad, string Type)
+        {
+            return RestaurantManager.Instance.GetRestaurantsByGeo(Long, Lat, Rad, Type);
         }
 
         // Add more operations here and mark them with [OperationContract]
