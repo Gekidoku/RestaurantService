@@ -12,32 +12,76 @@ namespace UT_ConnectionTest {
     public class SushiRestaurantConnectionTest {
         [TestMethod]
         public void UT_API_Connection_Succeed() {
-            //arrange
-            var restaurantManager = new RestaurantService.RestaurantService();
-            var testValue = "GoogleID";
+            HttpWebRequest request = WebRequest.Create("https://maps.googleapis.com/maps/api/place/details/xml?key=AIzaSyDzVGDSyH_9cUC-VzbPikf_LD9MIcFhHWA&placeid=GoogleID") as HttpWebRequest;
+            Assert.IsNotNull(request);
 
-            var actualValue = restaurantManager.GetRestaurantByGoogleId("GoogleID").Name;
-            Assert.IsNotNull(actualValue);
-            Assert.AreEqual(testValue, actualValue);
-            //act
+            var expected = true; 
+            var actualValue = request.HaveResponse;
+            Assert.AreEqual(expected, actualValue);
 
-            //assert
+            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+            var expectedValue = "OK";
+            var actual = response.StatusCode;
+            Assert.AreEqual(expectedValue, actual);
+            
         }
 
         [TestMethod]
-        public void UT_API_Call_is_not_empty() {
+        public void UT_MakeRequest_Succeed() {
 
-            var RestaurantService = new RestaurantService.RestaurantService();
-            var x = RestaurantService.getRestaurantMethods();
-            var restaurantManager = new RestaurantService.RestaurantManager();
-            var getRestaurantByGoogleID = restaurantManager.GetRestaurantByGoogleID(null);
+            //var service = new RestaurantService.RestaurantService();
+            //var restaurantMethods = service.getRestaurantMethods();
+            
+           // var url = service.GetRestaurantByGoogleId("test");
+
+            //service.GetType().is
+            //var aa = service.GetRestaurantByGoogleId().GetType.doc;
+
+            //HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+            
+            
+            //var x = request;
+            
 
 
-            x = null;
+            //HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+
+            //XmlDocument doc = new XmlDocument();
+            //doc.Load(response.GetResponseStream());
+            //return doc;
+
+
+
+        //var restaurantManager = new RestaurantService.RestaurantManager();
+
+        //string url = "InvalidCommandName";
+        //PrivateType pt = new PrivateType(typeof(MakeRequest));
+
+        //bool actualresult = (bool)pt.InvokeStatic("ValidateCommand", new object[] { Command });
+        //bool expectedresult = false;
+        //Assert.AreEqual(actualresult, expectedresult);
+    }
+
+        [TestMethod]
+        public void UT_Restaurants_List_Response_is_not_empty() {
+            var lonG = "5.2533770500";
+            var lat = "52.3809500";
+            var rad = "2000";
+            var type = "grieks";
+            var restaurantManager = new RestaurantService.RestaurantManager().GetRestaurantsByGeo(lonG, lat, rad, type);
+
+
+            var actualvalue = new RestaurantService.RestaurantService().GetRestaurantByGoogleId("GoogleID").City;
+
+
+            //var actualValue = restaurantManager.
+                //GetMethods().Where(p => p.Name.Contains("Restaurant")).ToList();
+            //Assert.IsNotNull(actualValue);
+            //Assert.AreEqual(testValue, actualValue);
         }
 
         [TestMethod]
-        public void UT_DelegatesVoltooidToKaartToevoegenProcessing() {
+        public void UT_API_Call_unknown() {
             //var stateDataBuilder = new TestBuilder();
             //StateData stateData = stateDataBuilder
             //                        .WithActiveStepId("Voltooid")
@@ -50,5 +94,5 @@ namespace UT_ConnectionTest {
             //var processingServiceMock = processingServiceMockBuilder.WithProcessSetup(state, null, false).Build();
 
         }
-        }
     }
+}
