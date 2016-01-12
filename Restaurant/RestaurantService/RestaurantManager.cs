@@ -60,7 +60,8 @@ namespace RestaurantService
             var res = doc.SelectNodes("/PlaceDetailsResponse/result");
             var xelement = XElement.Load(new XmlNodeReader(doc));
 
-            rest.Name = xelement.Descendants("name").First().Value;
+            if (null != xelement) { rest.Name = xelement.Descendants("name").First().Value; }
+                
             rest.Rating = xelement.Descendants("rating").First().Value;
             rest.GoogleID = xelement.Descendants("id").First().Value;
             var citychild = xelement.Descendants("type").FirstOrDefault(x => x.Value == "administrative_area_level_2");
