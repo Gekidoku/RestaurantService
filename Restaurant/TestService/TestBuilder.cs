@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace RestaurantService {
-    public class BankAccount {
+    public class TestBuilder {
     //    private string m_customerName;
 
     //    private double m_balance;
