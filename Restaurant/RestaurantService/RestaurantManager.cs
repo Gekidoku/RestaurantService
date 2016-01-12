@@ -53,30 +53,7 @@ namespace RestaurantService
             //TODO google place call voor get place by long lat
             //return restaurant met google Id
             
-           var restaurant = new Restaurant()
-            {
-                Name = "test",
-                GoogleID = new Guid().ToString(),
-                City = "That one weird town",
-                Rating = "5 bloody stars m8",
-                Street = "TyranisaurusREKTM8",
-                StreetNr = "322",
-                Lng = "322",
-                Lat = "322"
-            };
-            restaurantlist.Add(restaurant);
-            var restaurant1 = new Restaurant()
-            {
-                Name = "test1",
-                GoogleID = new Guid().ToString(),
-                City = "That one weird towny",
-                Rating = "5 bloody stars m9",
-                Street = "TyranisaurusREKTM9",
-                StreetNr = "1337",
-                Lng = "321",
-                Lat = "321"
-            };
-            restaurantlist.Add(restaurant1);
+         
             return restaurantlist;
         }
         
