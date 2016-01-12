@@ -21,11 +21,17 @@ namespace RestaurantService
         [DataMember]
         public string Street { get; set; }
         [DataMember]
+        public string StreetNr { get; set; }
+        [DataMember]
+        public string image { get; set; }
+        [DataMember]
         public string City { get; set; }
         [DataMember]
         public string Lng { get; set; }
         [DataMember]
         public string Lat { get; set; }
+        [DataMember]
+        public string PostalCode { get; set; }
 
     }
 }

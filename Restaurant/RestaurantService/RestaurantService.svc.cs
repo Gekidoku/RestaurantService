@@ -57,10 +57,10 @@ namespace RestaurantService
         }
 
         [OperationContract]
-        [WebGet(UriTemplate = "/GetRestaurantByGeo/{Long}/{Lat}", ResponseFormat = WebMessageFormat.Json)]
-        public Restaurant GetRestaurantByGeo(string Long, string Lat)
+        [WebGet(UriTemplate = "/GetRestaurantsByGeo/{Long}/{Lat}/{Rad}/{Type}", ResponseFormat = WebMessageFormat.Json)]
+        public List<Restaurant> GetRestaurantsByGeo(string Long, string Lat, string Rad, string Type)
         {
-            return RestaurantManager.Instance.GetRestaurantByGeo(Long, Lat);
+            return RestaurantManager.Instance.GetRestaurantsByGeo(Long, Lat, Rad, Type);
         }
 
         // Add more operations here and mark them with [OperationContract]
