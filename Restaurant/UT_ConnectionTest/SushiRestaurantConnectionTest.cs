@@ -14,53 +14,33 @@ namespace UT_ConnectionTest {
         public void UT_API_Connection_Succeed() {
             HttpWebRequest request = WebRequest.Create("https://maps.googleapis.com/maps/api/place/details/xml?key=AIzaSyDzVGDSyH_9cUC-VzbPikf_LD9MIcFhHWA&placeid=GoogleID") as HttpWebRequest;
             Assert.IsNotNull(request);
-
-            var expected = true; 
-            var actualValue = request.HaveResponse;
-            Assert.AreEqual(expected, actualValue);
-
+            
             HttpWebResponse response = request.GetResponse() as HttpWebResponse;
             var expectedValue = "OK";
-            var actual = response.StatusCode;
+            var actual = response.StatusCode.ToString();
             Assert.AreEqual(expectedValue, actual);
             
         }
 
         [TestMethod]
+        public void UT_API_Calls_Limit_Not_Reached() {
+            HttpWebRequest request = WebRequest.Create("https://maps.googleapis.com/maps/api/place/details/xml?key=AIzaSyDzVGDSyH_9cUC-VzbPikf_LD9MIcFhHWA&placeid=GoogleID") as HttpWebRequest;
+            Assert.IsNotNull(request);
+
+            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+            var expectedValue = "OK";
+            var actual = response.StatusCode.ToString();
+            Assert.AreEqual(expectedValue, actual);
+
+        }
+
+
+        [TestMethod]
         public void UT_MakeRequest_Succeed() {
 
-            //var service = new RestaurantService.RestaurantService();
-            //var restaurantMethods = service.getRestaurantMethods();
-            
-           // var url = service.GetRestaurantByGoogleId("test");
+            Assert.Inconclusive("deze test wordt overgeslagen vanwege het limiet aan API calls");
 
-            //service.GetType().is
-            //var aa = service.GetRestaurantByGoogleId().GetType.doc;
-
-            //HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-            
-            
-            //var x = request;
-            
-
-
-            //HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-
-            //XmlDocument doc = new XmlDocument();
-            //doc.Load(response.GetResponseStream());
-            //return doc;
-
-
-
-        //var restaurantManager = new RestaurantService.RestaurantManager();
-
-        //string url = "InvalidCommandName";
-        //PrivateType pt = new PrivateType(typeof(MakeRequest));
-
-        //bool actualresult = (bool)pt.InvokeStatic("ValidateCommand", new object[] { Command });
-        //bool expectedresult = false;
-        //Assert.AreEqual(actualresult, expectedresult);
-    }
+        }
 
         [TestMethod]
         public void UT_Restaurants_List_Response_is_not_empty() {
@@ -68,16 +48,29 @@ namespace UT_ConnectionTest {
             var lat = "52.3809500";
             var rad = "2000";
             var type = "grieks";
-            var restaurantManager = new RestaurantService.RestaurantManager().GetRestaurantsByGeo(lonG, lat, rad, type);
+            var results = new RestaurantService.RestaurantManager().GetRestaurantsByGeo(lonG, lat, rad, type);
 
+            var actual = results.Count;
+            Assert.IsNotNull(actual);
 
-            var actualvalue = new RestaurantService.RestaurantService().GetRestaurantByGoogleId("GoogleID").City;
+            if (actual > 0) {
+                return;
+            }
 
+        }
 
-            //var actualValue = restaurantManager.
-                //GetMethods().Where(p => p.Name.Contains("Restaurant")).ToList();
-            //Assert.IsNotNull(actualValue);
-            //Assert.AreEqual(testValue, actualValue);
+        [TestMethod]
+        public void UT_Restaurants_List_Response_returns_almerestad_Resaurant_succes() {
+            var city = "almere-stad";
+            var lonG = "5.2533770500";
+            var lat = "52.3809500";
+            var rad = "2000";
+            var type = "grieks";
+            var result = new RestaurantService.RestaurantManager().GetRestaurantsByGeo(lonG, lat, rad, type);
+            
+
+            var actualCity = new RestaurantService.RestaurantService().GetRestaurantByGoogleId("GoogleID").City;
+            Assert.AreEqual(city, actualCity);
         }
 
         [TestMethod]

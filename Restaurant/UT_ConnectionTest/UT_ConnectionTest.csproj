@@ -50,11 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Mock.cs" />
     <Compile Include="SushiRestaurantConnectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestBuilder.cs" />
-    <Compile Include="TestprocessingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RestaurantService\RestaurantService.csproj">
