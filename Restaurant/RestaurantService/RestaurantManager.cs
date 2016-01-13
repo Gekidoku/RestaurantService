@@ -39,16 +39,17 @@ namespace RestaurantService
             return rest;
             //return new Restaurant() { Name = "GoogleID", GoogleID = "564654654", City = "Leiden", Rating="5 fucking stars m8", Street = "that one weird ally" };
         }
-        public List<Restaurant> GetRestaurantsByGeo(string Long, string Lat, string Rad, string Type)
+        public List<RestaurantSmall> GetRestaurantsByGeo(string Long, string Lat, string Rad, string Type)
         {
             var key = Key();
             var url = "https://maps.googleapis.com/maps/api/place/textsearch/xml?query=" + Type + "&key=" + key + "&location=" + Lat + "," + Long + "&radius=" + Rad + "&type=restaurant";
             var result = MakeRequest(url);
             var xelement = XElement.Load(new XmlNodeReader(result));
-            var restaurantlist = new List<Restaurant>();
+            var restaurantlist = new List<RestaurantSmall>();
+            
             foreach (var item in xelement.Descendants("result"))
             {
-                restaurantlist.Add(GetRestaurantByGoogleID(item.Descendants("place_id").First().Value));
+                restaurantlist.Add(processSingle(item));
             }
             //TODO google place call voor get place by long lat
             //return restaurant met google Id
@@ -131,14 +132,20 @@ namespace RestaurantService
 
             return rest;
         }
-        public Restaurant processSingle(XElement xelement)
+        public RestaurantSmall processSingle(XElement xelement)
         {
-            var rest = new Restaurant();
-            var photo = xelement.Descendants("photo_reference").First().Value;
-            rest.image = getPhoto(photo);
-
+            var rest = new RestaurantSmall();
+            var photo = xelement.Descendants("photo_reference").FirstOrDefault();
+            if (photo != null)
+            {
+                rest.image = getPhoto(photo.Value);
+            }
+            else
+            {
+                rest.image = "";
+            }
             rest.Name = xelement.Descendants("name").First().Value;
-            var ratingcheck = xelement.Descendants("rating").First();
+            var ratingcheck = xelement.Descendants("rating").FirstOrDefault();
             if(ratingcheck == null)
             {
                 rest.Rating = "0";
@@ -148,17 +155,9 @@ namespace RestaurantService
                 rest.Rating = ratingcheck.Value;
             }
             rest.GoogleID = xelement.Descendants("place_id").First().Value;
-            var citychild = xelement.Descendants("type").FirstOrDefault(x => x.Value == "locality");
-            rest.City = citychild.Parent.Element("long_name").Value;
-            var streetchild = xelement.Descendants("type").FirstOrDefault(x => x.Value == "route");
-            var housenrchild = xelement.Descendants("type").FirstOrDefault(x => x.Value == "street_number");
-            rest.Street = streetchild.Parent.Element("long_name").Value;
-            rest.StreetNr = housenrchild.Parent.Element("long_name").Value;
-            var postalchild = xelement.Descendants("type").FirstOrDefault(x => x.Value == "postal_code");
-            rest.PostalCode = postalchild.Parent.Element("long_name").Value;
-            var Geometry = xelement.Descendants("location");
-            rest.Lng = xelement.Descendants("lng").First().Value;
+            rest.FullAdress = xelement.Descendants("formatted_address").First().Value;
             rest.Lat = xelement.Descendants("lat").First().Value;
+            rest.Lng = xelement.Descendants("lng").First().Value;
 
 
 

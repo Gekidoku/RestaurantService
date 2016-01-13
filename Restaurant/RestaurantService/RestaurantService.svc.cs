@@ -58,7 +58,7 @@ namespace RestaurantService
 
         [OperationContract]
         [WebGet(UriTemplate = "/GetRestaurantsByGeo/{Long}/{Lat}/{Rad}/{Type}", ResponseFormat = WebMessageFormat.Json)]
-        public List<Restaurant> GetRestaurantsByGeo(string Long, string Lat, string Rad, string Type)
+        public List<RestaurantSmall> GetRestaurantsByGeo(string Long, string Lat, string Rad, string Type)
         {
             return RestaurantManager.Instance.GetRestaurantsByGeo(Long, Lat, Rad, Type);
         }
